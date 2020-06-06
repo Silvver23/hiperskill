@@ -1,0 +1,69 @@
+x_o = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+
+
+def x_wins():
+    return any({'row1_X': "X" == x_o[0] and "X" == x_o[1] and "X" == x_o[2],
+                'row2_X': "X" == x_o[3] and "X" == x_o[4] and "X" == x_o[5],
+                'row3_X': "X" == x_o[6] and "X" == x_o[7] and "X" == x_o[8],
+                'col1_X': "X" == x_o[0] and "X" == x_o[3] and "X" == x_o[6],
+                'col2_X': "X" == x_o[1] and "X" == x_o[4] and "X" == x_o[7],
+                'col3_X': "X" == x_o[2] and "X" == x_o[5] and "X" == x_o[8],
+                'slant1_X': "X" == x_o[0] and "X" == x_o[4] and "X" == x_o[8],
+                'slant2_X': "X" == x_o[2] and "X" == x_o[4] and "X" == x_o[6]
+                }.values())
+
+
+def o_wins():
+    return any({'row1_O': "O" == x_o[0] and "O" == x_o[1] and "O" == x_o[2],
+                'row2_O': "O" == x_o[3] and "O" == x_o[4] and "O" == x_o[5],
+                'row3_O': "O" == x_o[6] and "O" == x_o[7] and "O" == x_o[8],
+                'col1_O': "O" == x_o[0] and "O" == x_o[3] and "O" == x_o[6],
+                'col2_O': "O" == x_o[1] and "O" == x_o[4] and "O" == x_o[7],
+                'col3_O': "O" == x_o[2] and "O" == x_o[5] and "O" == x_o[8],
+                'slant1_O': "O" == x_o[0] and "O" == x_o[4] and "O" == x_o[8],
+                'slant2_O': "O" == x_o[2] and "O" == x_o[4] and "O" == x_o[6]
+                }.values())
+
+
+print("---------")
+print("|", " ", " ", " ", "|")
+print("|", " ", " ", " ", "|")
+print("|", " ", " ", " ", "|")
+print("---------")
+
+coordinates = [['1', '3'], ['2', '3'], ['3', '3'], ['1', '2'], ['2', '2'], ['3', '2'], ['1', '1'], ['2', '1'],
+               ['3', '1']]
+
+count = 0
+
+empty_places = coordinates
+
+while not x_wins() and not o_wins() and x_o.count("X") + x_o.count("O") != 9:
+    move = input("Enter the coordinates: ").split(" ")
+    if move in empty_places:
+        ind = coordinates.index(move)
+        empty_places[ind] = [" ", " "]
+        if count % 2 == 0:
+            x_o[ind] = "X"
+            count += 1
+        else:
+            x_o[ind] = "O"
+            count += 1
+        print("----------")
+        print("|", x_o[0], x_o[1], x_o[2], "|")
+        print("|", x_o[3], x_o[4], x_o[5], "|")
+        print("|", x_o[6], x_o[7], x_o[8], "|")
+        print("----------")
+    elif move not in empty_places and move in coordinates:
+        print("This cell is occupied! Choose another one!")
+    elif not move[0].isdigit() and not move[1].isdigit():
+        print("You should enter numbers!")
+    elif move not in empty_places and int(move[0]) > 3 or int(move[1]) > 3:
+        print("Coordinates should be from 1 to 3!")
+
+if x_wins():
+    print("X wins")
+elif o_wins():
+    print("O wins")
+elif not x_wins() and not o_wins():
+    print("Draw")
