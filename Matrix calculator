@@ -1,0 +1,95 @@
+while True:
+    main = []
+    main2 = []
+    final = [[]]
+    mat = []
+    print("""1. Add matrices
+2. Multiply matrix by a constant
+3. Multiply matrices
+0. Exit""")
+    print("Your choice:")
+    choice = int(input())
+    if choice == 1:
+        print("Enter size of first matrix:")
+        rows, columns = input().split()
+        rows, columns = int(rows), int(columns)
+        print("Enter first matrix:")
+        for i in range(rows):
+            mat = input().split()
+            mat = list(map(float, mat))
+            main.append(mat)
+        print("Enter size of second matrix:")
+        rows2, columns2 = input().split()
+        rows2, columns2 = int(rows2), int(columns2)
+        print("Enter second matrix:")
+        for i in range(rows2):
+            mat = input().split()
+            mat = list(map(float, mat))
+            main2.append(mat)
+        print("The result is:")
+        if rows == rows2 and columns == columns2:
+            for i in range(rows):
+                for j in range(columns):
+                    a = str(main[i][j] + main2[i][j])
+                    final.insert(i, a)
+                    print(final[i], end=' ')
+                print()
+        else:
+            print('ERROR')
+        print()
+        continue
+    if choice == 2:
+        print("Enter size of first matrix:")
+        rows, columns = input().split()
+        rows = int(rows)
+        columns = int(columns)
+        print("Enter matrix:")
+        for i in range(rows):
+            mat = input().split()
+            mat = list(map(float, mat))
+            main.append(mat)
+        print("Enter constant:")
+        constant = int(input())
+        print("The result is:")
+        if rows == rows and columns == columns:
+            for i in range(rows):
+                for j in range(columns):
+                    a = str(constant * main[i][j])
+                    final.insert(i, a)
+                    print(final[i], end=' ')
+                print()
+        else:
+            print('ERROR')
+        print()
+        continue
+    if choice == 3:
+        print("Enter size of first matrix:")
+        rows, columns = input().split()
+        rows, columns = int(rows), int(columns)
+        print("Enter first matrix:")
+        for i in range(rows):
+            mat = input().split()
+            mat = list(map(float, mat))
+            main.append(mat)
+        print("Enter size of second matrix:")
+        rows2, columns2 = input().split()
+        rows2, columns2 = int(rows2), int(columns2)
+        print("Enter second matrix:")
+        for i in range(rows2):
+            mat = input().split()
+            mat = list(map(float, mat))
+            main2.append(mat)
+        print("The result is:")
+        if columns == rows2:
+            for i in range(rows):
+                for j in range(columns2):
+                    a = 0
+                    for k in range(rows2):
+                        a += (main[i][k] * main2[k][j])
+                    final.insert(i, str(a))
+                    print(final[i], end=' ')
+                print()
+        print()
+        continue
+    if choice == 0:
+        break
