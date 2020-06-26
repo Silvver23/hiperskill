@@ -1,0 +1,274 @@
+def input_matrix(n, m):
+    mat = []
+    for _ in range(n):
+        row = list(map(float, input().split()))
+        mat.append(row)
+    return mat
+
+
+def size_of_matrix():
+    row, column = map(int, input().split())
+    return row, column
+
+
+def add_matrix():
+    mat = []
+    print("Enter size of first matrix:")
+    row, column = size_of_matrix()
+    print("Enter first matrix:")
+    m1 = input_matrix(row, column)
+    print("Enter size of second matrix:")
+    row2, column2 = size_of_matrix()
+    print("Enter second matrix:")
+    m2 = input_matrix(row, column)
+    if not row == row2 or not column == column2:
+        return "ERROR"
+    for _ in range(row):
+        row = []
+        for __ in range(column):
+            row.append(str(m1[_][__] + m2[_][__]))
+        mat.append(row)
+    return mat
+
+
+def multiply_by_constant_matrix():
+    mat = []
+    print("Enter size of matrix:")
+    row, column = size_of_matrix()
+    print("Enter matrix:")
+    m1 = input_matrix(row, column)
+    print("Enter constant:")
+    constant = float(input())
+    for _ in range(row):
+        row = []
+        for __ in range(column):
+            row.append(str(constant * m1[_][__]))
+        mat.append(row)
+    return mat
+
+
+def show_matrix(mat):
+    print("The result is:")
+    for i in range(len(mat)):
+        for j in range(len(mat[0])):
+            print(mat[i][j], end=" ")
+        print()
+    print()
+
+
+def multiply_matrix():
+    mat = []
+    print("Enter size of first matrix:")
+    row, column = size_of_matrix()
+    print("Enter first matrix:")
+    m1 = input_matrix(row, column)
+    print("Enter size of second matrix:")
+    row2, column2 = size_of_matrix()
+    print("Enter second matrix:")
+    m2 = input_matrix(row2, column2)
+    if column == row2:
+        for _ in range(row):
+            row = []
+            for __ in range(column2):
+                sum_ = 0
+                for ___ in range(row2):
+                    sum_ += m1[_][___] * m2[___][__]
+                row.append(sum_)
+            mat.append(row)
+        return mat
+    else:
+        return "ERROR"
+
+
+def main_diagonal():
+    mat = []
+    print("Enter size of matrix:")
+    row, column = size_of_matrix()
+    print("Enter matrix:")
+    m1 = input_matrix(row, column)
+    if row == column:
+        for _ in range(len(m1)):
+            row = []
+            for __ in range(len(m1[_])):
+                row.append(str(m1[__][_]))
+            mat.append(row)
+        return mat
+    else:
+        return "ERROR"
+
+
+def side_diagonal():
+    mat = []
+    print("Enter size of matrix:")
+    row, column = size_of_matrix()
+    print("Enter matrix:")
+    m1 = input_matrix(row, column)
+    if row == column:
+        for _ in range(len(m1)):
+            row = []
+            for __ in range(len(m1[_])):
+                row.append(str(m1[len(m1[_]) - 1 - __][len(m1) - 1 - _]))
+            mat.append(row)
+        return mat
+    else:
+        return "ERROR"
+
+
+def vertical_line():
+    mat = []
+    print("Enter size of matrix:")
+    row, column = size_of_matrix()
+    print("Enter matrix:")
+    m1 = input_matrix(row, column)
+    if row == column:
+        for i in range(len(m1)):
+            row = []
+            for j in range(len(m1[i])):
+                row.append(str(m1[i][len(m1[i]) - 1 - j]))
+            mat.append(row)
+        return mat
+    else:
+        return "ERROR"
+
+
+def horizontal_line():
+    mat = []
+    print("Enter size of matrix:")
+    row, column = size_of_matrix()
+    print("Enter matrix:")
+    m1 = input_matrix(row, column)
+    if row == column:
+        for i in range(len(m1)):
+            row = []
+            for j in range(len(m1[i])):
+                row.append(str(m1[len(m1[i]) - 1 - i][j]))
+            mat.append(row)
+        return mat
+    else:
+        return "ERROR"
+
+
+def determinant(m, total=0):
+    ind = list(range(len(m)))
+    if len(m) == 1:
+        for i in m[0]:
+            return i
+    if len(m) == 2 and len(m[0]) == 2:
+        val = m[0][0] * m[1][1] - m[1][0] * m[0][1]
+        return val
+    for _ in ind:
+        x = m[1:]
+        height = len(x)
+        for i in range(height):
+            x[i] = x[i][0:_] + x[i][_ + 1:]
+        sgn = (-1) ** (_ % 2)
+        sub_det = determinant(x)
+        total += sgn * m[0][_] * sub_det
+    return total
+
+
+def identity_matrix_convertion(mat):
+    n = len(mat)
+    x = []
+    for i in range(n):
+        row = []
+        for j in range(n):
+            if i == j:
+                arr = 1
+                row.append(arr)
+            else:
+                arr = 0
+                row.append(arr)
+        x.append(row)
+    return x
+
+
+def inverse_matrix(mat):
+
+    n = len(mat)
+    am = mat[:]
+    i = identity_matrix_convertion(mat)
+    im = i[:]
+    ind = list(range(n))
+
+    if determinant(mat) == 0:
+        print("This matrix doesn't have an inverse.")
+    if len(mat) == len(mat[0]):
+        for i in range(n):
+            scal = 1.0 / am[i][i]
+            for j in range(n):
+                am[i][j] *= scal
+                im[i][j] *= scal
+            for k in ind[0:i] + ind[i + 1:]:
+                current_scal = am[k][i]
+                for _ in range(n):
+                    am[k][_] = am[k][_] - current_scal * am[i][_]
+                    im[k][_] = im[k][_] - current_scal * im[i][_]
+    return im
+
+
+while True:
+    print("""1. Add matrices
+2. Multiply matrix by a constant
+3. Multiply matrices
+4. Transpose matrix
+5. Calculate a determinant
+6. Inverse matrix
+0. Exit""")
+    print("Your choice:")
+    choice = int(input())
+    if choice == 1:
+        matrix = add_matrix()
+        show_matrix(matrix)
+        continue
+    if choice == 2:
+        matrix = multiply_by_constant_matrix()
+        show_matrix(matrix)
+        continue
+    if choice == 3:
+        matrix = multiply_matrix()
+        show_matrix(matrix)
+        continue
+    if choice == 4:
+        print("""1. Main diagonal
+2. Side diagonal
+3. Vertical line
+4. Horizontal line""")
+        print("Your choice:")
+        choice2 = int(input())
+        if choice2 == 1:
+            matrix = main_diagonal()
+            show_matrix(matrix)
+            continue
+        if choice2 == 2:
+            matrix = side_diagonal()
+            show_matrix(matrix)
+            continue
+        if choice2 == 3:
+            matrix = vertical_line()
+            show_matrix(matrix)
+            continue
+        if choice2 == 4:
+            matrix = horizontal_line()
+            show_matrix(matrix)
+            continue
+        else:
+            print("You should enter 1, 2, 3 or 4.")
+            continue
+    if choice == 5:
+        print("Enter size of matrix:")
+        size, size2 = size_of_matrix()
+        print("Enter matrix:")
+        matrix = input_matrix(size, size2)
+        print(determinant(matrix))
+        print()
+        continue
+    if choice == 6:
+        print("Enter size of matrix:")
+        size, size2 = size_of_matrix()
+        print("Enter matrix:")
+        matrix = input_matrix(size, size2)
+        new_matrix = inverse_matrix(matrix)
+        show_matrix(new_matrix)
+    if choice == 0:
+        break
